@@ -1,0 +1,5 @@
+node_modules/
+dist/
+/*.png     # תמונות עבודה של scripts/shot.mjs. לא חוסם תמונות ב-docs/
+*.stl
+*.3mf

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>מחולל מחזיקי מפתחות להדפסת תלת-ממד</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main id="app">
+    <aside id="panel">
+      <h1>מחזיק מפתחות</h1>
+
+      <label class="fld">שם
+        <input id="text" type="text" dir="auto" value="Lucca" maxlength="24" />
+      </label>
+
+      <label class="fld">גופן
+        <select id="font"></select>
+      </label>
+
+      <label class="num big">גודל גופן<input id="fontSize" type="number" dir="ltr" step="1" min="5" max="120" /><span>מ"מ</span></label>
+      <p class="hint">קבוע לכל השמות — כך סדרת מחזיקים יוצאת אחידה. האורך נגזר מזה ומוצג למטה.</p>
+
+      <fieldset>
+        <legend>בסיס</legend>
+        <label class="num">עובי<input id="baseThickness" type="number" dir="ltr" step="0.2" min="0.6" max="10" /><span>מ"מ</span></label>
+        <label class="num">מרווח סביב האותיות<input id="baseOffset" type="number" dir="ltr" step="0.1" min="0.4" max="10" /><span>מ"מ</span></label>
+        <label class="num">רדיוס עיגול פינות<input id="cornerRadius" type="number" dir="ltr" step="0.1" min="0" max="5" /><span>מ"מ</span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>אותיות</legend>
+        <label class="num">גובה בליטה<input id="letterHeight" type="number" dir="ltr" step="0.1" min="0.2" max="10" /><span>מ"מ</span></label>
+        <label class="chk"><input id="frame" type="checkbox" /> מסגרת סביב האותיות</label>
+        <label class="num">עובי מסגרת<input id="frameWidth" type="number" dir="ltr" step="0.1" min="0.2" max="5" /><span>מ"מ</span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>צורה</legend>
+        <label class="fld">צורה לצד השם
+          <select id="shape"></select>
+        </label>
+        <label class="num">גובה<input id="shapeSize" type="number" dir="ltr" step="1" min="4" max="80" /><span>מ"מ</span></label>
+        <label class="fld">צד
+          <select id="shapeSide">
+            <option value="right">ימין</option>
+            <option value="left">שמאל</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>לולאה</legend>
+        <label class="num">קוטר חור<input id="holeDia" type="number" dir="ltr" step="0.5" min="2" max="20" /><span>מ"מ</span></label>
+        <label class="num">עובי דופן<input id="ringWall" type="number" dir="ltr" step="0.2" min="1" max="10" /><span>מ"מ</span></label>
+        <label class="fld">מיקום סביב הבסיס
+          <input id="ringAngle" type="range" min="0" max="359" step="1" />
+        </label>
+        <div class="row">
+          <button type="button" data-angle="180">שמאל</button>
+          <button type="button" data-angle="90">למעלה</button>
+          <button type="button" data-angle="270">למטה</button>
+          <button type="button" data-angle="0">ימין</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>הדפסה</legend>
+        <label class="num">עובי קו מינימלי<input id="minStroke" type="number" dir="ltr" step="0.05" min="0.2" max="3" /><span>מ"מ</span></label>
+      </fieldset>
+
+      <div id="status"></div>
+      <div id="warnings"></div>
+
+      <div class="row" id="exports"></div>
+      <div class="row">
+        <button type="button" id="fit" class="link">מרכוז תצוגה</button>
+        <button type="button" id="reset" class="link">איפוס לברירות מחדל</button>
+      </div>
+    </aside>
+
+    <div id="view"><canvas id="canvas"></canvas><div id="legend"></div></div>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
