@@ -73,6 +73,19 @@ if (!argName) {
   if (thin.length) console.log(`   ⚠  דקות מדי בגודל ברירת המחדל: ${thin.join(', ')}`);
 }
 
+// הלולאה חייבת לנחות בדיוק בזווית שביקשו, נמדדת מ-center. לחיצה על התצוגה
+// הופכת את היחס הזה (מיקום → זווית), אז אם הוא נשבר הלחיצה תיפול במקום אחר.
+if (!argName) {
+  const f = load('Fredoka600.ttf');
+  for (const deg of [0, 45, 90, 180, 270, 315]) {
+    const r = buildKeychain({ ...DEFAULTS, text: 'נועה', ringAngle: deg }, f);
+    const got = (Math.atan2(r.ring[1] - r.center[1], r.ring[0] - r.center[0]) * 180) / Math.PI;
+    const off = Math.abs((((got - deg) % 360) + 540) % 360 - 180);
+    assert.ok(off < 0.5, `לולאה ב-${deg}°: נחתה ב-${got.toFixed(1)}° (סטייה ${off.toFixed(1)}°)`);
+  }
+  console.log('\nלולאה: 6 זוויות, כולן נוחתות בכיוון שנתבקש');
+}
+
 // גודל גופן קבוע ⇒ אורך השם לא משפיע על גובה האות. 'na'/'nananana' משתמשים
 // באותן אותיות בדיוק, אז כל הפרש בגובה הוא סקיילינג לא רצוי.
 if (!argName) {

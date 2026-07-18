@@ -48,6 +48,7 @@ export type Result = {
   size: [number, number, number];  // מידות כוללות, כולל הלולאה
   nameWidth: number;               // רוחב הבסיס בלי הלולאה
   ring: Vec2;
+  center: Vec2;                    // מרכז הבסיס שממנו נמדדת זווית הלולאה
   islands: number;                 // רכיבים נפרדים בבסיס אחרי הגישור (1 = תקין)
   bridge: number;                  // רדיוס הגישור שנדרש בפועל (מ"מ)
   baseGenus: number;               // מספר החורים החוצים בבסיס (1 = רק הלולאה)
@@ -361,6 +362,7 @@ export function buildKeychain(p: Params, fontBuf: ArrayBuffer, iconBuf?: ArrayBu
     size: [bb.max[0] - bb.min[0], bb.max[1] - bb.min[1], p.baseThickness + p.letterHeight],
     nameWidth: b.max[0] - b.min[0],
     ring: [ring[0] + shift[0], ring[1] + shift[1]],
+    center: [cx + shift[0], cy + shift[1]],
     islands,
     bridge,
     baseGenus: base3D.genus(),

@@ -54,9 +54,8 @@
         <legend>לולאה</legend>
         <label class="num">קוטר חור<input id="holeDia" type="number" dir="ltr" step="0.5" min="2" max="20" /><span>מ"מ</span></label>
         <label class="num">עובי דופן<input id="ringWall" type="number" dir="ltr" step="0.2" min="1" max="10" /><span>מ"מ</span></label>
-        <label class="fld">מיקום סביב הבסיס
-          <input id="ringAngle" type="range" min="0" max="359" step="1" />
-        </label>
+        <input id="ringAngle" type="hidden" />
+        <p class="hint" id="ringHint">מיקום: <b>לחץ על התצוגה</b> במקום שבו תרצה את הלולאה. גרירה מסובבת את המצלמה.</p>
         <div class="row">
           <button type="button" data-angle="180">שמאל</button>
           <button type="button" data-angle="90">למעלה</button>

@@ -84,6 +84,40 @@ Object.assign(window, {
   },
 });
 
+// ---- מיקום הלולאה בלחיצה על התצוגה -----------------------------------------
+// סליידר זווית הוא פרמטריזציה גרועה כאן: על לוחית רחבה כל הזוויות שבין 20°
+// ל-160° נופלות על אותה קצה עליון, אז תנועת הסליידר לא מתאימה לתנועת הלולאה.
+// לחיצה ישירה על המקום הרצוי היא מיפוי 1:1.
+const raycaster = new THREE.Raycaster();
+const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // = מישור z=0 של המודל
+const hitPoint = new THREE.Vector3();
+let pointerDownAt: { x: number; y: number } | null = null;
+
+canvas.addEventListener('pointerdown', (e) => { pointerDownAt = { x: e.clientX, y: e.clientY }; });
+canvas.addEventListener('pointerup', (e) => {
+  const down = pointerDownAt;
+  pointerDownAt = null;
+  if (!down || !last) return;
+  if (Math.hypot(e.clientX - down.x, e.clientY - down.y) > 5) return; // גרירה = סיבוב מצלמה
+
+  // בלי זה ה-raycast משתמש ב-matrixWorld מהרינדור האחרון, ולא ממצב המצלמה
+  // הנוכחי — הלחיצה נופלת במקום הלא נכון אם המצלמה זזה מאז
+  camera.updateMatrixWorld();
+  const r = canvas.getBoundingClientRect();
+  raycaster.setFromCamera(
+    new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1),
+    camera,
+  );
+  if (!raycaster.ray.intersectPlane(groundPlane, hitPoint)) return;
+
+  // הקבוצה מסובבת -90° סביב X, כלומר model(x,y,z) → world(x, z, -y),
+  // ולכן בחזרה: model.x = world.x, model.y = -world.z
+  const [cx, cy] = last.result.center;
+  const deg = (Math.atan2(-hitPoint.z - cy, hitPoint.x - cx) * 180) / Math.PI;
+  $<HTMLInputElement>('ringAngle').value = String(Math.round((deg + 360) % 360));
+  rebuild();
+});
+
 // ---- פרמטרים ---------------------------------------------------------------
 const NUM_IDS = ['fontSize', 'baseThickness', 'baseOffset', 'cornerRadius', 'letterHeight',
   'frameWidth', 'holeDia', 'ringWall', 'ringAngle', 'minStroke', 'shapeSize'] as const;
