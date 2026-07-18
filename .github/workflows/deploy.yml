@@ -23,6 +23,11 @@ jobs:
         with:
           node-version: '24'   # scripts/smoke.ts רץ ישירות דרך type stripping של node
           cache: npm
+      # enablement מפעיל את Pages מעצמו, כך שאין צעד ידני ב-Settings ומי
+      # שיעשה fork יקבל אתר עובד בלי להגדיר כלום
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - run: npm ci
       - run: npm run smoke    # שער: גיאומטריה שבורה חוסמת פרסום
       - run: npm run build
